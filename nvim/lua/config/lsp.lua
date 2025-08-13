@@ -3,7 +3,7 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 require("mason").setup()
 require("mason-lspconfig").setup({
-  ensure_installed = { "lua_ls", "ts_ls", "eslint", "omnisharp", "clangd" },
+  ensure_installed = { "lua_ls", "ts_ls", "eslint", "omnisharp", "clangd", "gopls" },
 })
 
 -- Lua
@@ -33,8 +33,20 @@ vim.lsp.enable("omnisharp")
 -- C++
 lspconfig.clangd.setup({
   capabilities = capabilities,
+  cmd = { "clangd", "-ID:\\projects\\libraries", "-LD:\\projects\\libraries" },
 })
 vim.lsp.enable("clangd")
+
+-- Go
+lspconfig.gopls.setup({
+  capabilities = capabilities,
+  settings = {
+    gopls = {
+      gofumpt = true,
+      staticcheck = true,
+    },
+  },
+})
 
 -- Completion
 require("cmp").setup({
@@ -53,15 +65,19 @@ conform.setup({
     javascript = { "prettier", "eslint_d" },
     typescript = { "prettier", "eslint_d" },
     cs = { "csharpier" },
-    cpp = { "clang-format" },
-    c = { "clang-format" },
+    cpp = { "clang_format" },
+    c = { "clang_format" },
+    go = { "gofmt" }
   },
-formatters = {
+  formatters = {
     csharpier = {
       command = "csharpier",
       args = { "format", "$FILENAME" },
       stdin = false,
     },
+    clang_format = {
+      args = { "-style=Google" },
+    }
   },
   format_on_save = true,
 })

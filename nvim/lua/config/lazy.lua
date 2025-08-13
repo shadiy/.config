@@ -61,8 +61,9 @@ require("lazy").setup({
       html = { "prettier" },
       css = { "prettier" },
       cs = { "csharpier" },
-        c = { "clang-format" },
-        cpp = { "clang-format" }
+      c = { "clang-format" },
+      cpp = { "clang-format" },
+      go = { "gofmt" }
     },
     format_on_save = {
       lsp_fallback = true,
